@@ -5,16 +5,18 @@ This repository contains the SHACL shapes for the Smarty City Project Linked Dat
 ## Repository Structure
 
 ```
-shapes/
-├── project.ttl                    # Smart City Project
-├── technical-process-step.ttl     # Technical process steps
-├── organizational-process-step.ttl# Organizational project phases
-├── resource.ttl                   # Reusable resource reference (docs, images, videos)
-├── manufacturer.ttl               # Manufacturer that produces the hardware and software
-├── software.ttl                   # Software applications
-├── hardware.ttl                   # Hardware devices
-├── location.ttl                   # Geographic location
-└── dataset.ttl                    # DCAT-AP catalog and dataset shapes
+├── shapes/
+│   ├── project.ttl                    # Smart City Project
+│   ├── technical-process-step.ttl     # Technical process steps
+│   ├── organizational-process-step.ttl# Organizational project phases
+│   ├── resource.ttl                   # Reusable resource reference (docs, images, videos)
+│   ├── manufacturer.ttl               # Manufacturer that produces the hardware and software
+│   ├── software.ttl                   # Software applications
+│   ├── hardware.ttl                   # Hardware devices
+│   ├── location.ttl                   # Geographic location
+│   └── dataset.ttl                    # DCAT-AP catalog and dataset shapes
+└── haar_example/
+    └── haar-instance.ttl              # Example instance: Ganzheitlicher Digitale Zwilling Haar
 ```
 
 ## Namespaces
@@ -44,3 +46,13 @@ The shapes use the following key namespaces:
 | `hardware.ttl` | `ssn:System` | Physical devices with type, model, manufacturer, capabilities, and sensor properties |
 | `location.ttl` | `dct:Location` | WGS84 coordinates and postal address |
 | `dataset.ttl` | `dcat:Dataset`, `dcat:Catalog`, … | Full DCAT-AP shapes for dataset and catalog metadata |
+
+## Haar Example
+
+`haar_example/haar-instance.ttl` contains a complete example instance of the SCPDM for the *Ganzheitlicher Digitale Zwilling Haar* project — a smart city digital twin for traffic management developed by the municipality of Haar, Bavaria.
+
+The instance illustrates:
+
+- **Project metadata** — title, description, status, timeline, budget, contact point, and partners
+- **Technical process steps** — three `p-plan:Step` instances covering data collection (Datenerfassung), data processing (Datenverarbeitung), and data visualization (Datenvisualisierung), each linked to their hardware, software, and dataset inputs
+- **Organizational process phases** — four `schema:QAPage` instances (Initiieren, Planen, Umsetzen, Weiterdenken) capturing stakeholder engagement and project decisions as question–answer pairs

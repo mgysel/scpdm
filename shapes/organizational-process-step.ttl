@@ -1,0 +1,122 @@
+@prefix adms: <http://www.w3.org/ns/adms#> .
+@prefix dcat: <http://www.w3.org/ns/dcat#> .
+@prefix dcatap: <http://data.europa.eu/r5r/> .
+@prefix dct: <http://purl.org/dc/terms/> .
+@prefix ex: <http://example.org/> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+@prefix geo: <http://www.w3.org/2003/01/geo/wgs84_pos#> .
+@prefix lcon: <http://www.w3.org/ns/locn#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix p-plan: <http://www.opmw.org/model/p-plan/> .
+@prefix prov: <http://www.w3.org/ns/prov#> .
+@prefix pv: <https://piveau.eu/ns/voc#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix schema: <https://schema.org/> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix sosa: <http://www.w3.org/ns/sosa/> .
+@prefix ssn: <http://www.w3.org/ns/ssn/> .
+@prefix ssn-system: <http://www.w3.org/ns/ssn/systems/> .
+@prefix vcard: <http://www.w3.org/2006/vcard/ns#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+# Main Process Step Shape using the nested question shape.
+pv:OrganizationalProcessStepShape 
+    a sh:NodeShape ;
+    sh:targetClass schema:QAPage ;
+    sh:name "OrganizationalProcessStep"@en ;
+
+
+    # Identifier
+    sh:property [
+        sh:path dct:identifier ;
+        sh:nodeKind sh:Literal ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:message "A unique identifier for the process step." 
+    ] ;
+
+    # Phase
+    sh:property [
+        sh:path dct:type ;
+        sh:nodeKind sh:Literal ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:message "The phase of the process step." 
+    ] ;
+
+    # Schema.org Question paired with an accepted answer using the nested shape.
+    sh:property [
+        sh:path schema:question ;
+        sh:nodeKind sh:BlankNodeOrIRI ;
+        sh:minCount 1 ;
+        sh:message "A question and its accepted answer that defines a decision point or key information about the process step." 
+    ] ;
+
+    # Order
+    sh:property [
+        sh:path schema:position ;
+        sh:nodeKind sh:Literal ;
+        sh:minCount 0 ;
+        sh:maxCount 1 ;
+        sh:message "Order of this organizational process step." 
+    ] ;
+
+    # Resources
+    sh:property [
+        sh:path dct:references ;
+        sh:nodeKind sh:BlankNodeOrIRI ;
+        sh:minCount 0 ;
+        sh:message "Reference to guidelines, documents, or standard operating procedures." 
+    ] .
+
+# schema:Question shape that must have an accepted answer.
+pv:QuestionAnswerPairShape 
+    a sh:NodeShape ;
+    sh:targetClass schema:Question ;
+    sh:name "QuestionAnswerPair"@en ;
+    sh:property [
+        sh:path schema:text ;
+        sh:nodeKind sh:Literal ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:message "The text of the question." 
+    ] ;
+
+    sh:property [
+        sh:path schema:acceptedAnswer ;
+        sh:nodeKind sh:Literal ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:message "A question must have exactly one accepted answer." 
+    ] ;
+
+    # Order within the step
+    sh:property [
+        sh:path schema:position ;
+        sh:nodeKind sh:Literal ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:message "Order of this question within the organizational process step (1 = first)." 
+    ] .
+
+dcatap:DateOrDateTimeDataType_Shape
+    a sh:NodeShape ;
+    rdfs:comment "Date time date disjunction shape checks that a datatype property receives a temporal value: date, dateTime, gYear or gYearMonth literal" ;
+    rdfs:label "Date time date disjunction" ;
+    sh:message "The values must be data typed as either xsd:date, xsd:dateTime, xsd:gYear or xsd:gYearMonth" ;
+    sh:or ([
+               sh:datatype xsd:date
+           ]
+           [
+               sh:datatype xsd:dateTime
+           ]
+           [
+               sh:datatype xsd:gYear
+           ]
+           [
+               sh:datatype xsd:gYearMonth
+           ]
+      ) .
+

@@ -1,0 +1,186 @@
+@prefix adms: <http://www.w3.org/ns/adms#> .
+@prefix dcat: <http://www.w3.org/ns/dcat#> .
+@prefix dcatap: <http://data.europa.eu/r5r/> .
+@prefix dct: <http://purl.org/dc/terms/> .
+@prefix ex: <http://example.org/> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+@prefix geo: <http://www.w3.org/2003/01/geo/wgs84_pos#> .
+@prefix lcon: <http://www.w3.org/ns/locn#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix p-plan: <http://www.opmw.org/model/p-plan/> .
+@prefix prov: <http://www.w3.org/ns/prov#> .
+@prefix pv: <https://piveau.eu/ns/voc#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix schema: <https://schema.org/> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix sosa: <http://www.w3.org/ns/sosa/> .
+@prefix ssn: <http://www.w3.org/ns/ssn/> .
+@prefix ssn-system: <http://www.w3.org/ns/ssn/systems/> .
+@prefix vcard: <http://www.w3.org/2006/vcard/ns#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+########################################################
+# Hardware Shape
+########################################################
+
+pv:HardwareShape 
+    a sh:NodeShape ;
+    sh:targetClass ssn:System, pv:CustomResource ;
+    sh:name "Hardware"@en ;
+
+
+    # Identifier
+    sh:property [
+        sh:path dct:identifier ;
+        sh:nodeKind sh:Literal ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:message "A unique identifier for the hardware device." 
+    ] ;
+
+    # Title
+    sh:property [
+        sh:path dct:title ;
+        sh:nodeKind sh:Literal ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:message "A short label for the hardware component." 
+    ] ;
+
+    # Description
+    sh:property [
+        sh:path dct:description ;
+        sh:nodeKind sh:Literal ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:message "A brief summary of what the device does." 
+    ] ;
+
+    # Type (Sensor, Actuator, or Platform)
+    sh:property [
+        sh:path schema:additionalType ;
+        sh:nodeKind sh:BlankNodeOrIRI ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:message "The category or class of the device (must be one of: sensor, actuator, or platform)." 
+    ] ;
+
+    # Category
+    sh:property [
+        sh:path dct:type ;
+        sh:nodeKind sh:Literal ;
+        sh:minCount 1 ;
+        sh:message "The type or classification of the hardware (e.g., environmental, traffic, utility)." 
+    ] ;
+
+    # Functionality
+    sh:property [
+        sh:path ssn-system:hasSystemCapability ;
+        sh:nodeKind sh:Literal ;
+        sh:minCount 1 ;
+        sh:message "The specific capabilities and functions the hardware provides." 
+    ] ;
+
+    # Manufacturer
+    sh:property [
+        sh:path foaf:maker ;
+        sh:nodeKind sh:BlankNodeOrIRI ;
+        sh:minCount 1 ;
+        sh:message "The organization that created or produces the hardware." 
+    ] ;
+
+    # Model
+    sh:property [
+        sh:path schema:model ;
+        sh:nodeKind sh:Literal ;
+        sh:minCount 0 ;
+        sh:message "The model number or identifier for the hardware device." 
+    ] ;
+
+    # Images
+    sh:property [
+        sh:path foaf:depiction ;
+        sh:nodeKind sh:BlankNodeOrIRI;
+        sh:message "The depiction (e.g., image) of the hardware. Should be a valid image URL." 
+    ] ;
+
+    # Measured or Actuated Property
+    sh:property [
+        sh:path ssn:forProperty ;
+        sh:nodeKind sh:BlankNodeOrIRI ;
+        sh:minCount 0 ;
+        sh:message "A property the system observes, acts on, or monitors (e.g., temperature, humidity, flow rate)." 
+    ] ;
+
+    # Operational Requirements
+    sh:property [
+        sh:path       ssn-system:hasOperatingProperty ;
+        sh:nodeKind   sh:BlankNodeOrIRI ;
+        sh:class      ssn-system:OperatingProperty ;
+        sh:minCount 0 ;
+        sh:message "Operational needs such as power supply, network connectivity, or environmental constraints." 
+    ] ;
+
+    # Catalog
+
+    # Country
+
+    # Catalog Record
+    sh:property [
+          sh:maxCount 1 ;
+          sh:path dcat:catalogRecord 
+    ] ;
+
+    # Last modified
+    sh:property [
+        sh:node dcatap:DateOrDateTimeDataType_Shape ;
+        sh:path        prov:generatedAtTime ;
+        sh:minCount    0 ;
+        sh:maxCount    1 ;
+        sh:message     "The dateTime when this metadata was last modified." 
+    ] ;
+
+    # Resources
+    sh:property [
+        sh:path dct:references ;
+        sh:nodeKind sh:BlankNodeOrIRI ;
+        sh:minCount 0 ;
+        sh:message "Links to manuals, specifications, or integration guides." 
+    ] .
+
+pv:HardwareTypeShape
+    a sh:NodeShape ;
+    sh:name "HardwareType"@en ;
+
+
+    # Label
+    sh:property [
+        sh:path skos:prefLabel ;
+        sh:maxCount 1 ;
+        sh:message "Label for the hardware type (e.g., 'Sensor', 'Actuator', 'Platform')." 
+    ] .
+
+dcatap:Location_Shape
+    a sh:NodeShape ;
+    sh:name "Location"@en ;
+    sh:property [
+          sh:maxCount 1 ;
+          sh:nodeKind sh:Literal ;
+          sh:path dcat:bbox ;
+          sh:severity sh:Violation 
+      ] ,
+        [
+          sh:maxCount 1 ;
+          sh:nodeKind sh:Literal ;
+          sh:path dcat:centroid ;
+          sh:severity sh:Violation 
+      ] ,
+        [
+          sh:maxCount 1 ;
+          sh:nodeKind sh:Literal ;
+          sh:path lcon:geometry ;
+          sh:severity sh:Violation 
+      ] ;
+    sh:targetClass dct:Location .

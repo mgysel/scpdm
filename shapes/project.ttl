@@ -1,0 +1,311 @@
+@prefix adms: <http://www.w3.org/ns/adms#> .
+@prefix dcat: <http://www.w3.org/ns/dcat#> .
+@prefix dcatap: <http://data.europa.eu/r5r/> .
+@prefix dct: <http://purl.org/dc/terms/> .
+@prefix ex: <http://example.org/> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+@prefix geo: <http://www.w3.org/2003/01/geo/wgs84_pos#> .
+@prefix lcon: <http://www.w3.org/ns/locn#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix p-plan: <http://www.opmw.org/model/p-plan/> .
+@prefix prov: <http://www.w3.org/ns/prov#> .
+@prefix pv: <https://piveau.eu/ns/voc#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix schema: <https://schema.org/> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix sosa: <http://www.w3.org/ns/sosa/> .
+@prefix ssn: <http://www.w3.org/ns/ssn/> .
+@prefix ssn-system: <http://www.w3.org/ns/ssn/systems/> .
+@prefix vcard: <http://www.w3.org/2006/vcard/ns#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+########################################################
+# Project Shape
+########################################################
+
+pv:ProjectShape
+    a sh:NodeShape ;
+    sh:targetClass schema:Project, pv:CustomResource ;
+    sh:name "Project"@en ;
+
+
+    # Identifier
+    sh:property [
+        sh:path dct:identifier ;
+        sh:nodeKind sh:Literal ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:message "Each project must have a unique identifier." 
+    ] ;
+
+    # Name
+    sh:property [
+        sh:path dct:title ;
+        sh:nodeKind sh:Literal ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:message "Each project must have an official name." 
+    ] ;
+
+    # Description
+    sh:property [
+        sh:path dct:description ;
+        sh:nodeKind sh:Literal ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:message "A brief summary of the project's goals, scope, and activities." 
+    ] ;
+
+    # Theme
+    sh:property [
+        sh:path dcat:theme ;
+        sh:minCount 1 ;
+        sh:message "Keywords or thematic tags describing the project as skos:Concept resources." 
+    ] ;
+
+    # Use Cases
+    sh:property [
+        sh:path schema:application ;
+        sh:nodeKind sh:Literal ;
+        sh:minCount 1 ;
+        sh:message "Use cases related to the project, such as 'urban heat island mapping'." 
+    ] ;
+
+    # Project Status
+    sh:property [
+        sh:path schema:status ;
+        sh:nodeKind sh:Literal ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:message "The current status of the project (e.g., 'planned', 'in progress', 'completed')." 
+    ] ;
+
+    # Cost
+    sh:property [
+        sh:path schema:amount ;
+        sh:class schema:MonetaryAmount ;
+        sh:nodeKind sh:BlankNodeOrIRI ;
+        sh:minCount 0 ;
+        sh:maxCount 1 ;
+        sh:message "The total cost of the project." 
+    ] ;
+
+    # Required Skills
+    sh:property [
+        sh:path schema:skills ;
+        sh:nodeKind sh:Literal ;
+        sh:minCount 0 ;
+        sh:message "The skill sets or expertise needed for the project." 
+    ] ;
+
+    # Timeline
+    sh:property [
+        sh:path schema:startDate ;
+        sh:nodeKind sh:Literal ;
+        sh:datatype xsd:date ;
+        sh:minCount 0 ;
+        sh:maxCount 1 ;
+        sh:message "The start date of the project." 
+    ] ;
+
+    sh:property [
+        sh:path schema:endDate ;
+        sh:nodeKind sh:Literal ;
+        sh:datatype xsd:date ;
+        sh:minCount 0 ;
+        sh:maxCount 1 ;
+        sh:message "The end date of the project." 
+    ] ;
+
+    # Project Contact
+    sh:property [
+        sh:path dcat:contactPoint ;
+        sh:minCount 0 ;
+        sh:message "A contact person or department for this project." 
+    ] ;
+
+    # Partners
+    sh:property [
+        sh:path dct:contributor ;
+        sh:nodeKind sh:BlankNodeOrIRI ;
+        sh:class foaf:Organization ;
+        sh:minCount 0 ;
+        sh:message "The partner organizations involved in the project." 
+    ] ;
+
+    # Technical Process Step
+    sh:property [
+        sh:path p-plan:hasStep ;
+        sh:nodeKind sh:BlankNodeOrIRI ;
+        sh:class p-plan:Step ;
+        sh:minCount 1 ;
+        sh:message "The technical process steps required to complete the project." 
+    ] ;
+
+    # Organizational Process Step
+    sh:property [
+        sh:path schema:hasPart ;
+        sh:nodeKind sh:BlankNodeOrIRI ;
+        sh:class schema:QAPage ;
+        sh:minCount 1 ;
+        sh:message "The general organizational phases required to complete the project." 
+    ] ;
+
+    # Catalog
+
+    # Country
+
+    # Catalog Record
+    sh:property [
+          sh:maxCount 1 ;
+          sh:path dcat:catalogRecord 
+    ] ;
+
+    # Resources
+    sh:property [
+        sh:path dct:references ;
+        sh:nodeKind sh:BlankNodeOrIRI ;
+        sh:minCount 0 ;
+        sh:message "Links to project proposals, status reports, or final summaries." 
+    ] ;
+
+    # Last modified
+    sh:property [
+        sh:node dcatap:DateOrDateTimeDataType_Shape ;
+        sh:path        prov:generatedAtTime ;
+        sh:minCount    0 ;
+        sh:maxCount    1 ;
+        sh:message     "The dateTime when this metadata was last modified." 
+    ] .
+
+dcatap:CatalogRecord_Shape
+    a sh:NodeShape ;
+    sh:name "Catalog Record"@en ;
+    sh:property [
+          sh:maxCount 1 ;
+          sh:node dcatap:DcatResource_Shape ;
+          sh:path foaf:primaryTopic ;
+          sh:severity sh:Violation
+      ] ,
+        [
+          sh:maxCount 1 ;
+          sh:path dct:modified ;
+          sh:severity sh:Violation ;
+          sh:shape dcatap:DateOrDateTimeDataType_Shape 
+      ] ,
+        [
+          sh:maxCount 1 ;
+          sh:node dcatap:DateOrDateTimeDataType_Shape ;
+          sh:path dct:issued ;
+          sh:severity sh:Violation 
+      ] ,
+        [
+          sh:maxCount 1 ;
+          sh:path pv:publicationStatus ;
+          sh:nodeKind sh:Literal ;
+          sh:severity sh:Violation 
+      ] ,
+        [
+          sh:maxCount 1 ;
+          sh:path pv:accessLevel ;
+          sh:nodeKind sh:Literal ;
+          sh:severity sh:Violation 
+      ] ,
+        [
+          sh:maxCount 1 ;
+          sh:path dct:conformsTo ;
+          sh:severity sh:Violation 
+      ] ,
+        [
+          sh:maxCount 1 ;
+          sh:path adms:status ;
+          sh:severity sh:Violation 
+      ] ,
+        [
+          sh:path dct:language ;
+          sh:severity sh:Violation 
+      ] ,
+        [
+          sh:maxCount 1 ;
+          sh:path dct:source ;
+          sh:severity sh:Violation 
+      ] ,
+        [
+          sh:nodeKind sh:Literal ;
+          sh:path dct:title ;
+          sh:severity sh:Violation 
+      ] ,
+        [
+          sh:nodeKind sh:Literal ;
+          sh:path dct:description ;
+          sh:severity sh:Violation 
+      ] ;
+    sh:targetClass dcat:CatalogRecord .
+
+# Define the MonetaryAmount shape for properly handling currency and value
+pv:MonetaryAmountShape
+    a sh:NodeShape ;
+    sh:targetClass schema:MonetaryAmount ;
+    sh:name "MonetaryAmount"@en ;
+    
+    # Description
+    sh:property [
+        sh:path dct:description ;
+        sh:nodeKind sh:Literal ;
+        sh:minCount 0 ;
+        sh:maxCount 1 ;
+        sh:message "A description of the monetary amount." 
+    ] ;
+    
+    # Currency
+    sh:property [
+        sh:path schema:currency ;
+        sh:nodeKind sh:Literal ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:message "The currency of the monetary amount (ISO 4217 currency code)." 
+    ] ;
+    
+    # Value
+    sh:property [
+        sh:path schema:value ;
+        sh:nodeKind sh:Literal ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:message "The numeric value of the monetary amount." 
+    ] .
+
+# Agent Shape
+dcatap:Agent_Shape
+    a sh:NodeShape ;
+    sh:name "Agent"@en ;
+    sh:property [
+          sh:minCount 1 ;
+          sh:maxCount 1 ;
+          sh:nodeKind sh:Literal ;
+          sh:path foaf:name ;
+          sh:severity sh:Violation
+      ] ,
+        [
+          sh:maxCount 1 ;
+          sh:path foaf:homepage ;
+          sh:severity sh:Violation 
+      ] ,
+        [
+          sh:maxCount 1 ;
+          sh:path foaf:mbox ;
+          sh:severity sh:Violation 
+      ] ,
+        [
+          sh:maxCount 1 ;
+          sh:path vcard:hasAddress ;
+          sh:severity sh:Violation 
+      ] ,
+        [
+          sh:maxCount 1 ;
+          sh:path dct:type ;
+          sh:severity sh:Violation
+      ] ;
+    sh:targetClass foaf:Agent .

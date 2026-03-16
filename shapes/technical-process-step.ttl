@@ -1,0 +1,221 @@
+@prefix adms: <http://www.w3.org/ns/adms#> .
+@prefix dcat: <http://www.w3.org/ns/dcat#> .
+@prefix dcatap: <http://data.europa.eu/r5r/> .
+@prefix dct: <http://purl.org/dc/terms/> .
+@prefix ex: <http://example.org/> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+@prefix geo: <http://www.w3.org/2003/01/geo/wgs84_pos#> .
+@prefix lcon: <http://www.w3.org/ns/locn#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix p-plan: <http://www.opmw.org/model/p-plan/> .
+@prefix prov: <http://www.w3.org/ns/prov#> .
+@prefix pv: <https://piveau.eu/ns/voc#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix schema: <https://schema.org/> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix sosa: <http://www.w3.org/ns/sosa/> .
+@prefix ssn: <http://www.w3.org/ns/ssn/> .
+@prefix ssn-system: <http://www.w3.org/ns/ssn/systems/> .
+@prefix vcard: <http://www.w3.org/2006/vcard/ns#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+pv:TechnicalProcessStepShape 
+    a sh:NodeShape ;
+    sh:targetClass p-plan:Step ;
+    sh:name "TechnicalProcessStep"@en ;
+
+
+    # Identifier
+    sh:property [
+        sh:path dct:identifier ;
+        sh:nodeKind sh:Literal ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:message "A unique identifier for the process step." 
+    ] ;
+
+    # Activity
+    sh:property [
+        sh:path p-plan:Activity ;
+        sh:nodeKind sh:Literal ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:message "Data collection, processing, simulation, and visualization activities." 
+    ] ;
+
+    # Description
+    sh:property [
+        sh:path dct:description ;
+        sh:nodeKind sh:Literal ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:message "A brief explanation of the step's purpose and actions." 
+    ] ;
+
+    # Project Use Case
+    sh:property [
+        sh:path schema:about ;
+        sh:nodeKind sh:Literal ;
+        sh:minCount 0 ;
+        sh:message "Specifies different project use cases this process step applies to." 
+    ] ;
+
+    # Order within the step
+    sh:property [
+        sh:path schema:position ;
+        sh:nodeKind sh:Literal ;
+        sh:minCount 0 ;
+        sh:maxCount 1 ;
+        sh:message "Order of this technical process step." 
+    ] ;
+
+    # Methods Used
+    sh:property [
+        sh:path prov:used ;
+        sh:nodeKind sh:BlankNodeOrIRI ;
+        sh:minCount 0 ;
+        sh:message "Indicates methods, frameworks, or tools used in the process step." 
+    ] ;
+
+    # Hardware, Software, and Datasets Used
+    sh:property [
+        sh:path        p-plan:hasInputVar ;
+        sh:nodeKind    sh:BlankNodeOrIRI ;
+        sh:minCount    0 
+    ] ;
+
+    # Resources
+    sh:property [
+        sh:path dct:references ;
+        sh:nodeKind sh:BlankNodeOrIRI ;
+        sh:minCount 0 ;
+        sh:message "Reference to guidelines or standard operating procedures for this step." 
+    ] .
+
+# Methods Used shape
+pv:MethodsUsedShape
+    a sh:NodeShape ;
+    sh:targetClass prov:used ;
+    sh:property [
+        sh:path dct:title ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:message "The name of the method." 
+    ] ,
+        [
+          sh:minCount 1 ;
+          sh:maxCount 1 ;
+          sh:path dct:description ;
+          sh:severity sh:Violation 
+      ] .
+
+# Input Link Shape for hardware, software, or datasets used in a process step
+pv:InputLinkShape
+    a sh:NodeShape ;
+    sh:name "InputLink"@en ;
+
+    # Software‑, Hardware‑ or Dataset‑link
+    sh:or ( [ sh:class schema:SoftwareApplication ]
+            [ sh:class ssn:System ]
+            [ sh:class dcat:Dataset   ] ) ;
+
+    sh:property [
+        sh:path        rdf:type ;
+        sh:nodeKind    sh:IRI ;
+        sh:minCount    1 ;          # every node has a type
+        sh:maxCount    1 
+    ] ;
+
+    sh:property [
+        sh:path        dct:identifier ;
+        sh:nodeKind    sh:Literal ;
+        sh:minCount    1 ;
+        sh:maxCount    1 
+    ] ;
+
+    # functionalities_used: list (only present for software)
+    sh:property [
+        sh:path        schema:featureList ;
+        sh:nodeKind    sh:Literal ;
+        sh:minCount    0 ;          # optional – dataset & hardware don’t have it
+    ] ;
+
+    # capabilities_used: list (only present for hardware)
+    sh:property [
+        sh:path        ssn-system:hasSystemCapability ;
+        sh:nodeKind    sh:Literal ;
+        sh:minCount    0 ;          # optional – dataset & software don't have it
+    ] ;
+
+    # Title (all input types)
+    sh:property [
+        sh:path dct:title ;
+        sh:nodeKind sh:Literal ;
+        sh:minCount 0 ;
+        sh:maxCount 1 ;
+        sh:message "A short label for the input (hardware, software, or dataset)."
+    ] ;
+
+    # Description (all input types)
+    sh:property [
+        sh:path dct:description ;
+        sh:nodeKind sh:Literal ;
+        sh:minCount 0 ;
+        sh:maxCount 1 ;
+        sh:message "A brief summary of the input (hardware, software, or dataset)."
+    ] ;
+
+    # Images (for hardware instances)
+    sh:property [
+        sh:path foaf:depiction ;
+        sh:nodeKind sh:BlankNodeOrIRI;
+        sh:minCount 0 ;
+        sh:message "The depiction (e.g., image) of the hardware instance. Should be a valid image URL." 
+    ] ;
+
+    # Host Platform (for hardware instances)
+    sh:property [
+        sh:path sosa:isHostedBy ;
+        sh:nodeKind sh:BlankNodeOrIRI ;
+        sh:class sosa:Platform ;
+        sh:minCount 0 ;
+        sh:message "The platform or physical structure hosting the device (e.g., a weather station, light pole)." 
+    ] ;
+
+    # Hosted Devices (for hardware instances)
+    sh:property [
+        sh:path sosa:hosts ;
+        sh:nodeKind sh:BlankNodeOrIRI ;
+        sh:minCount 0 ;
+        sh:message "Sensors or actuators hosted by this platform, if the instance is a platform." 
+    ] ;
+
+    # Measured or Actuated Property (for hardware instances)
+    sh:property [
+        sh:path ssn:forProperty ;
+        sh:class ssn:Property ;
+        sh:nodeKind sh:BlankNodeOrIRI ;
+        sh:minCount 0 ;
+        sh:message "The property that motivates this deployment (e.g., temperature, air quality)." 
+    ] ;
+
+    # Location (for hardware instances)
+    sh:property [
+        sh:path       sosa:hasLocation ;
+        sh:nodeKind   sh:BlankNodeOrIRI ;
+        sh:class      dct:Location ;
+        sh:minCount   0 ;
+        sh:maxCount   1 ;
+        sh:message    "Where the device is physically deployed (e.g., coordinates)." 
+    ] ;
+
+    # Documentation Links (all input types)
+    sh:property [
+        sh:path dct:references ;
+        sh:nodeKind sh:BlankNodeOrIRI ;
+        sh:minCount 0 ;
+        sh:message "Links to documentation or guides for this input (e.g., manuals, deployment notes)."
+    ] .
+

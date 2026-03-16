@@ -1,0 +1,152 @@
+@prefix adms: <http://www.w3.org/ns/adms#> .
+@prefix dcat: <http://www.w3.org/ns/dcat#> .
+@prefix dcatap: <http://data.europa.eu/r5r/> .
+@prefix dct: <http://purl.org/dc/terms/> .
+@prefix ex: <http://example.org/> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+@prefix geo: <http://www.w3.org/2003/01/geo/wgs84_pos#> .
+@prefix lcon: <http://www.w3.org/ns/locn#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix p-plan: <http://www.opmw.org/model/p-plan/> .
+@prefix prov: <http://www.w3.org/ns/prov#> .
+@prefix pv: <https://piveau.eu/ns/voc#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix schema: <https://schema.org/> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix sosa: <http://www.w3.org/ns/sosa/> .
+@prefix ssn: <http://www.w3.org/ns/ssn/> .
+@prefix ssn-system: <http://www.w3.org/ns/ssn/systems/> .
+@prefix vcard: <http://www.w3.org/2006/vcard/ns#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+########################################################
+# Software Shape
+########################################################
+
+pv:SoftwareShape
+    a sh:NodeShape ;
+    sh:targetClass schema:SoftwareApplication, pv:CustomResource ;
+    sh:name "Software"@en ;
+
+
+    # Identifier
+    sh:property [
+        sh:path dct:identifier ;
+        sh:nodeKind sh:Literal ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:message "A unique identifier for the software." 
+    ] ;
+
+    # Name
+    sh:property [
+        sh:path dct:title ;
+        sh:nodeKind sh:Literal ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:message "A label or title uniquely identifying the software." 
+    ] ;
+
+    # Description
+    sh:property [
+        sh:path dct:description ;
+        sh:nodeKind sh:Literal ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:message "A brief summary of the software's purpose and functionality." 
+    ] ;
+
+    # Manufacturer
+    sh:property [
+        sh:path foaf:maker ;
+        sh:nodeKind sh:BlankNodeOrIRI ;
+        sh:minCount 1 ;
+        sh:message "The organization that created or maintains the software." 
+    ] ;
+
+    # Category
+    sh:property [
+        sh:path dct:type ;
+        sh:nodeKind sh:Literal ;
+        sh:minCount 1 ;
+        sh:message "The type of software (e.g., GIS, Security, Productivity)." 
+    ] ;
+
+    # Functionality
+    sh:property [
+        sh:path schema:featureList ;
+        sh:nodeKind sh:Literal ;
+        sh:minCount 1 ;
+        sh:message "Specific features or functionalities the software provides." 
+    ] ;
+
+    # License
+    sh:property [
+        sh:path dct:license ;
+        sh:nodeKind sh:BlankNodeOrIRI ;
+        sh:minCount 0 ;
+        sh:message "The usage and distribution terms (e.g., Open-Source, Commercial). Should be a valid URL." 
+    ] ;
+
+    # Version
+    sh:property [
+        sh:path schema:softwareVersion ;
+        sh:nodeKind sh:Literal ;
+        sh:minCount 0 ;
+        sh:maxCount 1 ;
+        sh:message "An identifier for a specific release (e.g., 1.0, 2.3)." 
+    ] ;
+
+    # Requirements
+    sh:property [
+        sh:path schema:softwareRequirements ;
+        sh:nodeKind sh:Literal ;
+        sh:minCount 0 ;
+        sh:message "Conditions for using or running the software (e.g., system requirements, user skill level)." 
+    ] ;
+
+    # Catalog
+
+    # Country
+
+    # Catalog Record
+    sh:property [
+          sh:maxCount 1 ;
+          sh:path dcat:catalogRecord 
+    ] ;
+
+    # Last modified
+    sh:property [
+        sh:node dcatap:DateOrDateTimeDataType_Shape ;
+        sh:path        prov:generatedAtTime ;
+        sh:minCount    0 ;
+        sh:maxCount    1 ;
+        sh:message     "The dateTime when this metadata was last modified." 
+    ] ;
+
+    # Resources
+    sh:property [
+        sh:path dct:references ;
+        sh:nodeKind sh:BlankNodeOrIRI ;
+        sh:minCount 0 ;
+        sh:message "Links to any extra documentation regarding the software, such as manuals, API documentation, or guides." 
+    ] .
+
+dcatap:License_Shape
+    a sh:NodeShape ;
+    sh:name "License"@en ;
+    sh:property [
+          sh:maxCount 1 ;
+          sh:path dct:description 
+      ] ,
+        [
+          sh:maxCount 1 ;
+          sh:path skos:prefLabel 
+      ] ,
+        [
+          sh:maxCount 1 ;
+          sh:path foaf:homepage 
+      ] ;
+    sh:targetClass dct:license .

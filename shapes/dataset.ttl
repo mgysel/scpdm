@@ -1,0 +1,935 @@
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix adms: <http://www.w3.org/ns/adms#> .
+@prefix cc: <http://creativecommons.org/ns#> .
+@prefix dc: <http://purl.org/dc/elements/1.1/> .
+@prefix dcat: <http://www.w3.org/ns/dcat#> .
+@prefix dct: <http://purl.org/dc/terms/> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+@prefix lcon: <http://www.w3.org/ns/locn#> .
+@prefix org: <http://www.w3.org/ns/org#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix odrl: <http://www.w3.org/ns/odrl/2/> .
+@prefix prov: <http://www.w3.org/ns/prov#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix schema: <http://schema.org/> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix spdx: <http://spdx.org/rdf/terms#> .
+@prefix time: <http://www.w3.org/2006/time#> .
+@prefix vcard: <http://www.w3.org/2006/vcard/ns#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix dcatap: <http://data.europa.eu/r5r/> .
+@prefix dcatde: <http://dcat-ap.de/def/dcatde/> .
+@prefix pv: <https://piveau.eu/ns/voc#> .
+@prefix dcatapde: <http://dcat-ap.de/def/dcatde/> .
+@prefix senias: <http://senias.de/ns/sis#> .
+@prefix stat: <http://data.europa.eu/s1n/> .
+
+# DCAT-AP 2.1.1 SHACL Shapes
+# Source: https://joinup.ec.europa.eu/solution/dcat-ap
+# License: CC BY 4.0  https://creativecommons.org/licenses/by/4.0
+
+dcatap:Agent_Shape
+    a sh:NodeShape ;
+    sh:name "Agent"@en ;
+    sh:property [
+          sh:minCount 1 ;
+          sh:maxCount 1 ;
+          sh:nodeKind sh:Literal ;
+          sh:path foaf:name ;
+          sh:severity sh:Violation
+      ] ,
+        [
+          sh:maxCount 1 ;
+          sh:path foaf:homepage ;
+          sh:severity sh:Violation 
+      ] ,
+        [
+          sh:maxCount 1 ;
+          sh:path foaf:mbox ;
+          sh:severity sh:Violation 
+      ] ,
+        [
+          sh:maxCount 1 ;
+          sh:path vcard:hasAddress ;
+          sh:severity sh:Violation 
+      ] ,
+        [
+          sh:path vcard:hasTelephone ;
+          sh:maxCount 1 ;
+          sh:nodeKind sh:Literal ;
+          sh:severity sh:Violation
+      ] ,
+        [
+        sh:path foaf:logo ;
+        sh:maxCount 1 ;
+        sh:severity sh:Violation 
+      ] ,
+        [
+          sh:maxCount 1 ;
+          sh:path dct:type ;
+          sh:severity sh:Violation
+      ] ;
+    sh:targetClass foaf:Agent .
+dcatap:Vcard_Address_Shape
+    a sh:NodeShape ;
+    sh:name "VcardAddress"@en ;
+    sh:property [
+          sh:maxCount 1 ;
+          sh:nodeKind sh:Literal ;
+          sh:path vcard:street-address ;
+          sh:severity sh:Violation
+      ] ,
+        [
+          sh:maxCount 1 ;
+          sh:nodeKind sh:Literal ;
+          sh:path vcard:locality ;
+          sh:severity sh:Violation
+      ] ,
+        [
+          sh:maxCount 1 ;
+          sh:nodeKind sh:Literal ;
+          sh:path vcard:postal-code ;
+          sh:severity sh:Violation
+      ] ;
+    sh:targetClass vcard:Address .
+
+dcatap:CatalogRecord_Shape
+    a sh:NodeShape ;
+    sh:name "Catalog Record"@en ;
+    sh:property [
+          sh:maxCount 1 ;
+          sh:node dcatap:DcatResource_Shape ;
+          sh:path foaf:primaryTopic ;
+          sh:severity sh:Violation
+      ] ,
+        [
+          sh:maxCount 1 ;
+          sh:path dct:modified ;
+          sh:severity sh:Violation ;
+          sh:shape dcatap:DateOrDateTimeDataType_Shape 
+      ] ,
+        [
+          sh:maxCount 1 ;
+          sh:node dcatap:DateOrDateTimeDataType_Shape ;
+          sh:path dct:issued ;
+          sh:severity sh:Violation 
+      ] ,
+        [
+          sh:maxCount 1 ;
+          sh:path pv:publicationStatus ;
+          sh:nodeKind sh:Literal ;
+          sh:severity sh:Violation 
+      ] ,
+        [
+          sh:maxCount 1 ;
+          sh:path pv:accessLevel ;
+          sh:nodeKind sh:Literal ;
+          sh:severity sh:Violation 
+      ] ,
+        [
+          sh:maxCount 1 ;
+          sh:path dct:conformsTo ;
+          sh:severity sh:Violation 
+      ] ,
+        [
+          sh:maxCount 1 ;
+          sh:path adms:status ;
+          sh:severity sh:Violation 
+      ] ,
+        [
+          sh:path dct:language ;
+          sh:severity sh:Violation 
+      ] ,
+        [
+          sh:maxCount 1 ;
+          sh:path dct:source ;
+          sh:severity sh:Violation 
+      ] ,
+        [
+          sh:nodeKind sh:Literal ;
+          sh:path dct:title ;
+          sh:severity sh:Violation 
+      ] ,
+        [
+          sh:nodeKind sh:Literal ;
+          sh:path dct:description ;
+          sh:severity sh:Violation 
+      ] ;
+    sh:targetClass dcat:CatalogRecord .
+
+dcatap:Catalog_Shape
+    a sh:NodeShape ;
+    sh:name "Catalog"@en ;
+    sh:property [
+          sh:path dct:language ;
+          sh:severity sh:Violation 
+      ] ,
+        [
+          sh:path pv:catalogueProfileImage 
+      ] ,
+        [
+          sh:path pv:catalogueBackground 
+      ] ,
+        [
+          sh:path pv:catalogueFavIcon 
+      ] ,
+        [
+          sh:path pv:catalogueLogo 
+      ] ,
+        [
+          sh:path pv:catalogueInterestingDatasets  
+      ] ,
+        [
+          sh:maxCount 1 ;
+          sh:path dct:license ;
+          sh:severity sh:Violation 
+      ] ,
+        [
+          sh:maxCount 1 ;
+          sh:node dcatap:DateOrDateTimeDataType_Shape ;
+          sh:path dct:issued ;
+          sh:severity sh:Violation 
+      ] ,
+        [
+          sh:path dct:spatial ;
+          sh:severity sh:Violation 
+      ] ,
+        [
+          sh:path dct:hasPart ;
+          sh:severity sh:Violation 
+      ] ,
+        [
+          sh:maxCount 1 ;
+          sh:path dct:isPartOf ;
+          sh:severity sh:Violation 
+      ] ,
+        [
+          sh:maxCount 1 ;
+          sh:node dcatap:DateOrDateTimeDataType_Shape ;
+          sh:path dct:modified ;
+          sh:severity sh:Violation 
+      ] ,
+        [
+          sh:maxCount 1 ;
+          sh:path dct:rights ;
+          sh:severity sh:Violation 
+      ] ,
+        [
+          sh:path dcat:record ;
+          sh:severity sh:Violation
+      ] ,
+        [
+          sh:path dcat:themeTaxonomy ;
+          sh:severity sh:Violation 
+      ] ,
+        [
+          sh:path dcat:service ;
+          sh:severity sh:Violation 
+      ] ,
+        [
+          sh:path dcat:catalog ;
+          sh:severity sh:Violation 
+      ] ,
+        [
+          sh:maxCount 1 ;
+          sh:path dct:creator ;
+          sh:severity sh:Violation 
+      ] ,
+        [
+          sh:path dcat:dataset ;
+          sh:severity sh:Violation
+      ] ,
+        [
+          sh:minCount 1 ;
+          sh:nodeKind sh:Literal ;
+          sh:path dct:description ;
+          sh:severity sh:Violation 
+      ] ,
+        [
+          sh:maxCount 1 ;
+          sh:minCount 1 ;
+          sh:path dct:publisher ;
+          sh:severity sh:Violation 
+      ] ,
+        [
+          sh:minCount 1 ;
+          sh:nodeKind sh:Literal ;
+          sh:path dct:title ;
+          sh:severity sh:Violation 
+      ] ,
+        [
+          sh:maxCount 1 ;
+          sh:path foaf:homepage ;
+          sh:severity sh:Violation 
+      ] ,
+        [
+          sh:maxCount 1 ;
+          sh:path dcatap:availability ;
+          sh:severity sh:Violation 
+      ] ,
+        [
+          sh:path pv:visualisationData ;
+          sh:maxCount  1 
+      ] ,
+        [
+        sh:path pv:visualisationSelection 
+      ] ,
+        [
+          sh:maxCount 1;
+          sh:path pv:isOpenDataPresence;
+          sh:nodeKind sh:BlankNodeOrLiteral;
+          sh:description "Used to identify a catalog as an open data presence"
+      ] ;
+    sh:targetClass dcat:Catalog .
+dcatap:CategoryScheme_Shape
+    a sh:NodeShape ;
+    sh:name "Category Scheme"@en ;
+    sh:property [
+          sh:minCount 1 ;
+          sh:nodeKind sh:Literal ;
+          sh:path dct:title ;
+          sh:severity sh:Violation
+      ] ;
+    sh:targetClass skos:ConceptScheme .
+dcatap:Category_Shape
+    a sh:NodeShape ;
+    sh:name "Category"@en ;
+    sh:property [
+          sh:minCount 1 ;
+          sh:nodeKind sh:Literal ;
+          sh:path skos:prefLabel ;
+          sh:severity sh:Violation
+      ] ;
+    sh:targetClass skos:Concept .
+dcatap:Checksum_Shape
+    a sh:NodeShape ;
+    sh:name "Checksum"@en ;
+    sh:property [
+          sh:hasValue spdx:checksumAlgorithm_sha1 ;
+          sh:maxCount 1 ;
+          sh:minCount 1 ;
+          sh:path spdx:algorithm ;
+          sh:severity sh:Violation
+      ] ,
+        [
+          sh:datatype xsd:hexBinary ;
+          sh:maxCount 1 ;
+          sh:minCount 1 ;
+          sh:path spdx:checksumValue ;
+          sh:severity sh:Violation
+      ] ;
+    sh:targetClass spdx:Checksum .
+dcatap:DataService_Shape
+    a sh:NodeShape ;
+    sh:name "Data Service"@en ;
+    sh:property [
+          sh:minCount 1 ;
+          sh:nodeKind sh:Literal ;
+          sh:path dct:title ;
+          sh:severity sh:Violation 
+      ] ,
+        [
+          sh:minCount 1 ;
+          sh:nodeKind sh:BlankNodeOrIRI ;
+          sh:path dcat:endpointURL ;
+          sh:severity sh:Violation 
+      ] ,
+        [
+          sh:path dcat:servesDataset ;
+          sh:severity sh:Violation
+      ] ,
+        [
+          sh:nodeKind sh:Literal ;
+          sh:path dct:description ;
+          sh:severity sh:Violation 
+      ] ,
+        [
+          sh:nodeKind sh:BlankNodeOrIRI ;
+          sh:path dcat:endpointDescription ;
+          sh:severity sh:Violation
+      ] ,
+        [
+          sh:maxCount 1 ;
+          sh:path dct:license ;
+          sh:severity sh:Violation
+      ] ,
+        [
+          sh:maxCount 1 ;
+          sh:path dct:accessRights ;
+          sh:severity sh:Violation
+      ] ,
+        [
+          sh:maxCount 1 ;
+          sh:path dcatap:availability ;
+          sh:severity sh:Violation 
+      ] ,
+        [
+          sh:path dcatap:applicableLegislation  ;
+          sh:severity sh:Violation ;
+          sh:description "The legislation that mandates the creation or management of the Data Service."@en;
+          sh:name "applicable legislation"@en;
+          sh:nodeKind sh:BlankNodeOrIRI
+      ] ,
+        [
+          sh:path dcat:contactPoint ;
+          sh:severity sh:Violation 
+      ] ,
+        [
+          sh:path foaf:page ;
+          sh:severity sh:Violation 
+      ] ,
+        [
+          sh:path dcatap:hvdCategory ;
+          sh:severity sh:Violation ;
+          sh:description "The HVD category to which this Data Service belongs."@en;
+          sh:name "HVD category"@en;
+          sh:nodeKind sh:BlankNodeOrIRI
+      ] ,
+        [
+          sh:path dct:rights ;
+          sh:severity sh:Violation 
+      ] ;
+    sh:targetClass dcat:DataService .
+dcatap:Dataset_Shape
+    a sh:NodeShape ;
+    sh:name "Dataset"@en ;
+    sh:property [
+          sh:minCount 1 ;
+          sh:nodeKind sh:Literal ;
+          sh:path dct:description ;
+          sh:severity sh:Violation 
+      ] ,
+        [
+          sh:minCount 1 ;
+          sh:nodeKind sh:Literal ;
+          sh:path dct:title ;
+          sh:severity sh:Violation 
+      ] ,
+        [
+          sh:nodeKind sh:Literal ;
+          sh:path dct:identifier ;
+          sh:severity sh:Violation 
+      ] ,
+        [
+          sh:path dcat:contactPoint ;
+          sh:severity sh:Violation 
+      ] ,
+        [
+          sh:path dcat:distribution ;
+          sh:severity sh:Violation 
+      ] ,
+        [
+          sh:nodeKind sh:Literal ;
+          sh:path dcat:keyword ;
+          sh:severity sh:Violation 
+      ] ,
+        [
+          sh:maxCount 1 ;
+          sh:minCount 1 ;
+          sh:path dct:publisher ;
+          sh:severity sh:Violation 
+      ] ,
+        [
+          sh:path dct:spatial ;
+          sh:severity sh:Violation 
+      ] ,
+        [
+          sh:path dct:temporal ;
+          sh:severity sh:Violation 
+      ] ,
+        [
+          sh:path dcat:theme ;
+          sh:severity sh:Violation 
+      ] ,
+        [
+          sh:maxCount 1 ;
+          sh:path dct:accessRights ;
+          sh:severity sh:Violation 
+      ] ,
+        [
+          sh:maxCount 1 ;
+          sh:path dct:accrualPeriodicity ;
+          sh:severity sh:Violation 
+      ] ,
+        [
+          sh:path dct:conformsTo ;
+          sh:severity sh:Violation 
+      ] ,
+        [
+          sh:path dct:hasVersion ;
+          sh:severity sh:Violation 
+      ] ,
+        [
+          sh:path dct:isVersionOf ;
+          sh:severity sh:Violation 
+      ] ,
+        [
+          sh:maxCount 1 ;
+          sh:path dct:issued ;
+          sh:severity sh:Violation ;
+          sh:shape dcatap:DateOrDateTimeDataType_Shape 
+      ] ,
+        [
+          sh:path dct:language ;
+          sh:severity sh:Violation 
+      ] ,
+        [
+          sh:maxCount 1 ;
+          sh:path dct:modified ;
+          sh:severity sh:Violation ;
+          sh:shape dcatap:DateOrDateTimeDataType_Shape 
+      ] ,
+        [
+          sh:path dct:provenance ;
+          sh:severity sh:Violation 
+      ] ,
+        [
+          sh:nodeKind sh:BlankNodeOrIRI ;
+          sh:path dct:relation ;
+          sh:severity sh:Violation 
+      ] ,
+        [
+          sh:path dct:source ;
+          sh:severity sh:Violation 
+      ] ,
+        [
+          sh:maxCount 1 ;
+          sh:path dct:type ;
+          sh:severity sh:Violation 
+      ] ,
+        [
+          sh:maxCount 1 ;
+          sh:nodeKind sh:Literal ;
+          sh:path owl:versionInfo ;
+          sh:severity sh:Violation 
+      ] ,
+        [
+          sh:nodeKind sh:Literal ;
+          sh:path adms:versionNotes ;
+          sh:severity sh:Violation 
+      ] ,
+        [
+          sh:path adms:identifier ;
+          sh:severity sh:Violation 
+      ] ,
+        [
+          sh:path adms:sample ;
+          sh:severity sh:Violation 
+      ] ,
+        [
+          sh:path dcat:landingPage ;
+          sh:severity sh:Violation 
+      ] ,
+        [
+          sh:path foaf:page ;
+          sh:severity sh:Violation 
+      ] ,
+        [
+          sh:path dcat:qualifiedRelation ;
+          sh:severity sh:Violation 
+      ] ,
+        [
+          sh:nodeKind sh:BlankNodeOrIRI ;
+          sh:path dct:isReferencedBy ;
+          sh:severity sh:Violation 
+      ] ,
+        [
+          sh:path prov:qualifiedAttribution ;
+          sh:severity sh:Violation 
+      ] ,
+        [
+          sh:path prov:wasGeneratedBy ;
+          sh:severity sh:Violation 
+      ] ,
+        [
+          sh:datatype xsd:duration ;
+          sh:maxCount 1 ;
+          sh:path dcat:temporalResolution ;
+          sh:severity sh:Violation 
+      ] ,
+        [
+          sh:datatype xsd:decimal ;
+          sh:maxCount 1 ;
+          sh:path dcat:spatialResolutionInMeters ;
+          sh:severity sh:Violation 
+      ] ,
+        [
+          sh:maxCount 1 ;
+          sh:path dct:creator ;
+          sh:severity sh:Violation 
+      ] ,
+        [
+          sh:maxCount 1 ;
+          sh:path dcat:catalogRecord 
+      ] ,
+        [
+          sh:path senias:deadline ;
+          sh:maxCount 1 
+      ] ,
+        [
+          sh:path dct:subject 
+      ] ,
+        [
+          sh:path stat:attribute 
+      ] ,
+        [
+          sh:path stat:dimension 
+      ] ,
+        [
+          sh:path stat:numSeries ;
+          sh:maxCount 1 
+      ] ,
+        [
+          sh:path stat:hasQualityAnnotation 
+      ] ,
+        [
+          sh:path stat:statUnitMeasure 
+      ] ,
+        [
+          sh:path dcatde:politicalGeocodingLevelURI ;
+          rdfs:comment "DCAT-AP.de 2.0 addition" ;
+          sh:severity sh:Violation 
+      ] ,
+        [
+          sh:path dcatde:politicalGeocodingURI ;
+          rdfs:comment "DCAT-AP.de 2.0 addition" ;
+          sh:severity sh:Violation 
+      ] ,
+        [
+          sh:path dcatap:availability ;
+          rdfs:comment "DCAT-AP.de 2.0 addition" ;
+          sh:maxCount 1 ;
+          sh:severity sh:Violation 
+      ] ,
+        [
+          sh:path dcatde:contributorID ;
+          rdfs:comment "DCAT-AP.de 2.0 addition" ;
+          sh:severity sh:Violation 
+      ] ,
+        [
+          sh:path dcatde:geocodingDescription ;
+          rdfs:comment "DCAT-AP.de 2.0 addition" ;
+          sh:nodeKind sh:Literal ;
+          sh:severity sh:Violation 
+      ] ,
+        [
+          sh:path dcatde:legalBasis ;
+          rdfs:comment "DCAT-AP.de 2.0 addition" ;
+          sh:nodeKind sh:Literal ;
+          sh:severity sh:Violation 
+      ] ,
+        [
+          sh:path dcatde:qualityProcessURI ;
+          rdfs:comment "DCAT-AP.de 2.0 addition" ;
+          sh:maxCount 1 ;
+          sh:severity sh:Violation 
+      ] ,
+        [
+          sh:path dct:references ;
+          rdfs:comment "DCAT-AP.de 2.0 addition" ;
+          sh:maxCount 1 ;
+          sh:severity sh:Violation 
+      ] ,
+        [
+          sh:path dcatde:contributor ;
+          rdfs:comment "DCAT-AP.de 2.0 addition" ;
+          sh:severity sh:Violation 
+      ] ,
+        [
+          sh:path dcatde:originator ;
+          rdfs:comment "DCAT-AP.de 2.0 addition" ;
+          sh:severity sh:Violation 
+      ] ,
+        [
+          sh:path dcatde:maintainer ;
+          rdfs:comment "DCAT-AP.de 2.0 addition" ;
+          sh:severity sh:Violation 
+      ] ,
+        [
+          sh:path dcatap:hvdCategory ;
+          sh:severity sh:Violation ;
+          sh:description "The HVD category to which this Data Service belongs."@en;
+          sh:name "HVD category"@en;
+          sh:nodeKind sh:BlankNodeOrIRI
+      ] ,
+        [
+          sh:path dcatap:applicableLegislation  ;
+          sh:severity sh:Violation ;
+          sh:description "The legislation that mandates the creation or management of the Data Service."@en;
+          sh:name "applicable legislation"@en;
+          sh:nodeKind sh:BlankNodeOrIRI
+      ] ,
+        [
+            sh:path pv:openDataPresence;
+            sh:severity sh:Violation ;
+            sh:nodeKind sh:BlankNodeOrLiteral;
+            sh:description "Used to assign a dataset to one or more open data presences"
+          ] ;
+    sh:targetClass dcat:Dataset .
+dcatap:DateOrDateTimeDataType_Shape
+    a sh:NodeShape ;
+    rdfs:comment "Date time date disjunction shape checks that a datatype property receives a temporal value: date, dateTime, gYear or gYearMonth literal" ;
+    rdfs:label "Date time date disjunction" ;
+    sh:message "The values must be data typed as either xsd:date, xsd:dateTime, xsd:gYear or xsd:gYearMonth" ;
+    sh:or ([
+               sh:datatype xsd:date
+           ]
+           [
+               sh:datatype xsd:dateTime
+           ]
+           [
+               sh:datatype xsd:gYear
+           ]
+           [
+               sh:datatype xsd:gYearMonth
+           ]
+      ) .
+dcatap:DcatResource_Shape
+    a sh:NodeShape ;
+    rdfs:comment "the union of Catalog, Dataset and DataService" ;
+    rdfs:label "dcat:Resource" ;
+    sh:message "The node is either a Catalog, Dataset or a DataService" ;
+    sh:or ([
+               sh:class dcat:Catalog
+           ]
+           [
+               sh:class dcat:Dataset
+           ]
+           [
+               sh:class dcat:DataService
+           ]
+      ) .
+dcatap:Distribution_Shape
+    a sh:NodeShape ;
+    sh:name "Distribution"@en ;
+    sh:property [
+          sh:path dct:conformsTo ;
+          sh:severity sh:Violation 
+      ] ,
+        [
+          sh:maxCount 1 ;
+          sh:node dcatap:DateOrDateTimeDataType_Shape ;
+          sh:path dct:issued ;
+          sh:severity sh:Violation 
+      ] ,
+        [
+          sh:path dct:language ;
+          sh:severity sh:Violation 
+      ] ,
+        [
+          sh:maxCount 1 ;
+          sh:node dcatap:DateOrDateTimeDataType_Shape ;
+          sh:path dct:modified ;
+          sh:severity sh:Violation 
+      ] ,
+        [
+          sh:maxCount 1 ;
+          sh:path dct:rights ;
+          sh:severity sh:Violation 
+      ] ,
+        [
+          sh:nodeKind sh:Literal ;
+          sh:path dct:title ;
+          sh:severity sh:Violation 
+      ] ,
+        [
+          sh:maxCount 1 ;
+          sh:path spdx:checksum ;
+          sh:severity sh:Violation 
+      ] ,
+        [
+          sh:maxCount 1 ;
+          sh:path adms:status ;
+          sh:severity sh:Violation 
+      ] ,
+        [
+          sh:datatype xsd:decimal ;
+          sh:maxCount 1 ;
+          sh:path dcat:byteSize ;
+          sh:severity sh:Violation 
+      ] ,
+        [
+          sh:nodeKind sh:BlankNodeOrIRI;
+          sh:path dcat:downloadURL ;
+          sh:severity sh:Violation 
+      ] ,
+        [
+          sh:maxCount 1 ;
+          sh:path dcat:mediaType ;
+          sh:severity sh:Violation 
+      ] ,
+        [
+          sh:path foaf:page ;
+          sh:severity sh:Violation 
+      ] ,
+        [
+          sh:maxCount 1 ;
+          sh:path odrl:hasPolicy ;
+          sh:severity sh:Violation 
+      ] ,
+        [
+          sh:path dcat:accessService ;
+          sh:severity sh:Violation 
+      ] ,
+        [
+          sh:maxCount 1 ;
+          sh:path dcat:compressFormat ;
+          sh:severity sh:Violation 
+      ] ,
+        [
+          sh:maxCount 1 ;
+          sh:path dcat:packageFormat ;
+          sh:severity sh:Violation 
+      ] ,
+        [
+          sh:datatype xsd:duration ;
+          sh:maxCount 1 ;
+          sh:path dcat:temporalResolution ;
+          sh:severity sh:Violation 
+      ] ,
+        [
+          sh:datatype xsd:decimal ;
+          sh:maxCount 1 ;
+          sh:path dcat:spatialResolutionInMeters ;
+          sh:severity sh:Violation 
+      ] ,
+        [
+          sh:minCount 1 ;
+          sh:nodeKind sh:BlankNodeOrIRI;
+          sh:path dcat:accessURL ;
+          sh:severity sh:Violation 
+      ] ,
+        [
+          sh:nodeKind sh:Literal ;
+          sh:path dct:description ;
+          sh:severity sh:Violation 
+      ] ,
+        [
+          sh:maxCount 1 ;
+          sh:path dcatap:availability ;
+          sh:severity sh:Violation 
+      ] ,
+        [
+          sh:maxCount 1 ;
+          sh:path dct:format ;
+          sh:severity sh:Violation 
+      ] ,
+        [
+          sh:maxCount 1 ;
+          sh:path dct:license ;
+          sh:severity sh:Violation 
+      ] ,
+        [
+          sh:path dcatde:licenseAttributionByText ;
+          rdfs:comment "DCAT-AP.de 2.0 addition" ;
+          sh:nodeKind sh:Literal ;
+          sh:severity sh:Violation 
+      ] ,
+        [
+          sh:path dcatap:applicableLegislation  ;
+          sh:severity sh:Violation ;
+          sh:description "The legislation that mandates the creation or management of the Data Service."@en;
+          sh:name "applicable legislation"@en;
+          sh:nodeKind sh:BlankNodeOrIRI
+      ] ;
+    sh:targetClass dcat:Distribution .
+dcatap:License_Shape
+    a sh:NodeShape ;
+    sh:name "License"@en ;
+    sh:property [
+          sh:maxCount 1 ;
+          sh:path dct:description 
+      ] ,
+        [
+          sh:maxCount 1 ;
+          sh:path skos:prefLabel 
+      ] ,
+        [
+          sh:maxCount 1 ;
+          sh:path foaf:homepage 
+      ] ;
+    sh:targetClass dct:license .
+dcatap:Identifier_Shape
+    a sh:NodeShape ;
+    sh:name "Identifier"@en ;
+    sh:property [
+          sh:maxCount 1 ;
+          sh:path skos:notation ;
+          sh:severity sh:Violation
+      ] ;
+    sh:targetClass adms:Identifier .
+dcatap:LicenceDocument_Shape
+    a sh:NodeShape ;
+    sh:name "Licence Document"@en ;
+    sh:property [
+          sh:path dct:type ;
+          sh:severity sh:Violation
+      ] ;
+    sh:targetClass dct:LicenseDocument .
+dcatap:Location_Shape
+    a sh:NodeShape ;
+    sh:name "Location"@en ;
+    sh:property [
+          sh:maxCount 1 ;
+          sh:nodeKind sh:Literal ;
+          sh:path dcat:bbox ;
+          sh:severity sh:Violation
+      ] ,
+        [
+          sh:maxCount 1 ;
+          sh:nodeKind sh:Literal ;
+          sh:path dcat:centroid ;
+          sh:severity sh:Violation
+      ] ,
+        [
+          sh:maxCount 1 ;
+          sh:nodeKind sh:Literal ;
+          sh:path lcon:geometry ;
+          sh:severity sh:Violation
+      ] ;
+    sh:targetClass dct:Location .
+dcatap:PeriodOfTime_Shape
+    a sh:NodeShape ;
+    sh:name "PeriodOfTime"@en ;
+    sh:property [
+          sh:maxCount 1 ;
+          sh:path dcat:endDate ;
+          sh:severity sh:Violation ;
+          sh:shape dcatap:DateOrDateTimeDataType_Shape
+      ] ,
+        [
+          sh:maxCount 1 ;
+          sh:path time:hasBeginning ;
+          sh:severity sh:Violation
+      ] ,
+        [
+          sh:maxCount 1 ;
+          sh:path time:hasEnd ;
+          sh:severity sh:Violation
+      ] ,
+        [
+          sh:maxCount 1 ;
+          sh:path dcat:startDate ;
+          sh:severity sh:Violation ;
+          sh:shape dcatap:DateOrDateTimeDataType_Shape
+      ] ;
+    sh:targetClass dct:PeriodOfTime .
+dcatap:Relationship_Shape
+    a sh:NodeShape ;
+    sh:name "Relationship"@en ;
+    sh:property [
+          sh:minCount 1 ;
+          sh:path dct:relation ;
+          sh:severity sh:Violation
+      ] ,
+        [
+          sh:minCount 1 ;
+          sh:path dcat:hadRole ;
+          sh:severity sh:Violation
+      ] ;
+    sh:targetClass dcat:Relationship .
+pv:Vocable_Shape
+    a sh:NodeShape ;
+    sh:name "Vocabulary"@en ;
+    sh:targetClass pv:Vocable .

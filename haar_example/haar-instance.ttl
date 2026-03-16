@@ -1,0 +1,319 @@
+@prefix dcat:       <http://www.w3.org/ns/dcat#> .
+@prefix dct:        <http://purl.org/dc/terms/> .
+@prefix foaf:       <http://xmlns.com/foaf/0.1/> .
+@prefix p-plan:     <http://www.opmw.org/model/p-plan/> .
+@prefix piveau:     <https://piveau.eu/ns/voc#> .
+@prefix rdfs:       <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix schema:     <https://schema.org/> .
+@prefix ssn:        <http://www.w3.org/ns/ssn/> .
+@prefix ssn-system: <http://www.w3.org/ns/ssn/systems/> .
+@prefix vcard:      <http://www.w3.org/2006/vcard/ns#> .
+@prefix xsd:        <http://www.w3.org/2001/XMLSchema#> .
+
+########################################################
+# Ganzheitlicher Digitale Zwilling Haar
+# Example instance of the Smart City Project Data Model
+########################################################
+
+<https://twin.bydata.de/set/resource/project/ganzheitlicher-digitale-zwilling-haar>
+    a schema:Project, piveau:CustomResource ;
+
+    ########################################################
+    # Core Metadata
+    ########################################################
+
+    dct:identifier  "ganzheitlicher-digitale-zwilling-haar" ;
+    dct:title       "Ganzheitlicher Digitale Zwilling Haar"@de ;
+    dct:description "Die Stadt Haar entwickelt einen digitalen Zwilling zur Verkehrssteuerung. Durch die Kombination von 3D-Gebäudedaten, Sensorik und IoT-Technologien entsteht ein realistisches 3D-Stadtmodell mit integrierter Verkehrs- und Umweltdatenanalyse. Der Zwilling ermöglicht eine datenbasierte Planung, Prognose und Optimierung städtischer Prozesse – für bessere Entscheidungsgrundlagen und effizientere Zusammenarbeit aller Beteiligten."@de ;
+    schema:status    "Abgeschlossen" ;
+    schema:startDate "2023-05-01" ;
+    schema:endDate   "2024-04-11" ;
+    schema:application "Verkehrsflussanalyse" ;
+    dcat:theme <http://publications.europa.eu/resource/authority/data-theme/TRAN> ;
+
+    ########################################################
+    # Required Skills
+    ########################################################
+
+    schema:skills
+        "Geoinformatik",
+        "Visualisierung & Dashboards",
+        "Stadtplanung & Kontextdaten",
+        "Verkehrsplanung",
+        "Datenschutz & IT-Sicherheit",
+        "Projektmanagement & Kommunikation",
+        "IoT & Sensorik",
+        "Datenmanagement" ;
+
+    ########################################################
+    # Budget
+    ########################################################
+
+    schema:amount [
+        a schema:MonetaryAmount ;
+        schema:currency    "EUR" ;
+        schema:value       50000 ;
+        schema:description "Förderung waren 50.000 €"
+    ] ;
+
+    ########################################################
+    # Contact Point
+    ########################################################
+
+    dcat:contactPoint [
+        a vcard:Kind ;
+        vcard:fn           "Stadt Haar" ;
+        vcard:hasEmail     "digitaler-zwilling@stadt-haar.de" ;
+        vcard:hasTelephone "089460020"
+    ] ;
+
+    ########################################################
+    # Partners
+    ########################################################
+
+    dct:contributor
+        [
+            foaf:name     "RIWA GmbH" ;
+            foaf:homepage <https://www.riwa.de/>
+        ],
+        [
+            foaf:name     "BERNARD Gruppe GmbH" ;
+            foaf:homepage <https://www.bernard-gruppe.com/de/>
+        ],
+        [
+            foaf:name     "DKSR GmbH" ;
+            foaf:homepage <https://www.dksr.city/>
+        ] ;
+
+    ########################################################
+    # Reference Materials
+    ########################################################
+
+    dct:references
+        [
+            a rdfs:Resource ;
+            dct:type  "image" ;
+            dct:title "image" ;
+            schema:url <https://storage.googleapis.com/twin-bydata-staging-public-storage/workshop/haar/1.png>
+        ],
+        [
+            a rdfs:Resource ;
+            dct:type  "image" ;
+            dct:title "image" ;
+            schema:url <https://storage.googleapis.com/twin-bydata-staging-public-storage/workshop/haar/2.png>
+        ],
+        [
+            a rdfs:Resource ;
+            dct:type  "image" ;
+            dct:title "image" ;
+            schema:url <https://storage.googleapis.com/twin-bydata-staging-public-storage/workshop/haar/3.png>
+        ],
+        [
+            a rdfs:Resource ;
+            dct:type        "documentation" ;
+            dct:title       "Digitaler Zwilling Haar" ;
+            dct:description "Der Digitale Zwilling Haar integriert eine Vielzahl verschiedener Fachdaten in einem 3D-Stadtmodell, das auf detaillierten Geodaten basiert. Dadurch werden städtische Daten anschaulich zugänglich, inkl. Bebauungsplänen mit 3D-Gebäuden und Bepflanzungen. Dies schafft ein umfassendes Bild der Stadt und ermöglicht Interessierten, Haar aus einer neuen Perspektive zu erkunden. Der digitale Zwilling trägt zur transparenten, nachhaltigen und lebenswerten Gestaltung der Stadt Haar bei." ;
+            schema:url      <https://dz.haar.bayern/>
+        ] ;
+
+    ########################################################
+    # Technical Process Steps
+    ########################################################
+
+    p-plan:hasStep
+
+        # Step 1: Datenerfassung
+        [
+            a p-plan:Step ;
+            dct:identifier  "haar-step-datenerfassung" ;
+            p-plan:Activity "Datenerfassung" ;
+            schema:position 1 ;
+            dct:description "Die Daten wurden über ein IoT-System mit Verkehrskameras erfasst und zentral gespeichert. Ergänzend flossen kontextbezogene Informationen wie Wetter und Ereignisse in die Analyse ein."@de ;
+            p-plan:hasInputVar
+                [
+                    a dcat:Dataset ;
+                    dct:identifier "https://twin.bydata.de/api/hub/repo/datasets/verkehrszaehlung-haar"
+                ],
+                [
+                    a dcat:Dataset ;
+                    dct:identifier "https://twin.bydata.de/api/hub/repo/datasets/verkehrsdaten-kreisverkehr-haar"
+                ],
+                [
+                    a schema:SoftwareApplication ;
+                    dct:identifier    "https://twin.bydata.de/api/hub/repo/resources/software/software-1-7" ;
+                    schema:featureList "API Management", "Zeitreihenanalyse", "Datenintegration", "Datenspeicher"
+                ],
+                [
+                    a ssn:System ;
+                    dct:identifier "https://twin.bydata.de/api/hub/repo/resources/hardware/hardware-1-42" ;
+                    ssn:deployedSystem <https://twin.bydata.de/api/hub/repo/resources/hardware/hardware-1-42> ;
+                    ssn-system:hasSystemCapability "Sensorik / Messung", "Visualisierung / Analyse"
+                ]
+        ],
+
+        # Step 2: Datenverarbeitung
+        [
+            a p-plan:Step ;
+            dct:identifier  "haar-step-datenverarbeitung" ;
+            p-plan:Activity "Datenverarbeitung" ;
+            schema:position 2 ;
+            dct:description "Die aus dem IoT-System mit Verkehrskameras erhobenen Daten (z. B. Verkehrsstärken, Fahrzeugkategorien, Bewegungsrichtungen) wurden in ein Grafana-Dashboard integriert, welches in das 3D-GIS-Modell über eine Verlinkung eingebunden wurde."@de ;
+            p-plan:hasInputVar
+                [
+                    a schema:SoftwareApplication ;
+                    dct:identifier    "https://twin.bydata.de/api/hub/repo/resources/software/software-1-7" ;
+                    schema:featureList "Statistische Analyse", "Zeitreihenanalyse"
+                ],
+                [
+                    a schema:SoftwareApplication ;
+                    dct:identifier    "https://twin.bydata.de/api/hub/repo/resources/software/software-1-2" ;
+                    schema:featureList "Datenpublikation", "Zeitreihenanalyse"
+                ]
+        ],
+
+        # Step 3: Datenvisualisierung
+        [
+            a p-plan:Step ;
+            dct:identifier  "haar-step-datenvisualisierung" ;
+            p-plan:Activity "Datenvisualisierung" ;
+            schema:position 3 ;
+            dct:description "Die Daten wurden sowohl in einem 3D-Modell als auch in einem Dashboard visualisiert. Der digitale Zwilling ist dabei in das Dashboard integriert."@de ;
+            p-plan:hasInputVar
+                [
+                    a schema:SoftwareApplication ;
+                    dct:identifier    "https://twin.bydata.de/api/hub/repo/resources/software/software-1-18" ;
+                    schema:featureList "3D-Modellierung", "3D-Visualisierung"
+                ]
+        ] ;
+
+    ########################################################
+    # Organizational Process Phases
+    ########################################################
+
+    schema:hasPart
+
+        # Phase 1: Initiieren
+        [
+            a schema:QAPage ;
+            dct:identifier  "haar-phase-initiieren" ;
+            dct:type        "Initiieren" ;
+            schema:position 1 ;
+            schema:question
+                [
+                    a schema:Question ;
+                    schema:position      1 ;
+                    schema:text          "Was waren Auslöser für das Projekt (z.B. rechtliche oder politische Vorgaben, intrinsische Motivation oder inspirierende Projekte aus anderen Kommunen)?" ;
+                    schema:acceptedAnswer "Das Projekt entstand aus dem Wunsch, Bauplanungen für Bürgerinnen, Bürger und Verwaltung transparenter zu machen und gleichzeitig rechtliche Beteiligungspflichten effizient zu erfüllen. Vorbilder aus anderen Kommunen sowie die Möglichkeit, 3D-Modelle im VDM mit LOD2-Daten für Analysen wie Beschattungsstudien zu nutzen, gaben zusätzlichen Anstoß."
+                ],
+                [
+                    a schema:Question ;
+                    schema:position      2 ;
+                    schema:text          "Welche relevanten Akteure - innerhalb oder außerhalb Ihrer Organisation - haben Sie frühzeitig involviert (z.B. um politische Rückendeckung sicherzustellen)?" ;
+                    schema:acceptedAnswer "Politische Entscheidungsträger, Bürgervertretungen und Landesbehörden wurden einbezogen, um fachliche Qualität, Akzeptanz und politische Rückendeckung sicherzustellen."
+                ],
+                [
+                    a schema:Question ;
+                    schema:position      3 ;
+                    schema:text          "Wie haben Sie den Bestand vorhandener Daten erhoben?" ;
+                    schema:acceptedAnswer "Der Bestand vorhandener Daten wurde durch eine Bestandsaufnahme in Zusammenarbeit mit den zuständigen Fachbereichen, die Auswertung vorhandener CAD- und GIS-Daten sowie die Einbindung externer Datenquellen wie LOD2-Modelle und Katasterinformationen erhoben."
+                ],
+                [
+                    a schema:Question ;
+                    schema:position      4 ;
+                    schema:text          "Wie haben Sie das (erste) Budget berechnet und nachhaltig gesichert?" ;
+                    schema:acceptedAnswer "Das erste Budget wurde auf Basis der geschätzten Projektanforderungen und -ressourcen kalkuliert und über eine Förderung des Landes Bayern gesichert."
+                ]
+        ],
+
+        # Phase 2: Planen
+        [
+            a schema:QAPage ;
+            dct:identifier  "haar-phase-planen" ;
+            dct:type        "Planen" ;
+            schema:position 2 ;
+            schema:question
+                [
+                    a schema:Question ;
+                    schema:position      1 ;
+                    schema:text          "Wie haben Sie die Anforderungen erhoben und dokumentiert (z.B. durch Markterkundung, externe Berater oder Workshops)?" ;
+                    schema:acceptedAnswer "Die Anforderungen wurden im Rahmen des Förderprojekts in mehreren Workshops und Arbeitsphasen gemeinsam mit externen Partnern sowie durch interne Abstimmungen erhoben und dokumentiert."
+                ],
+                [
+                    a schema:Question ;
+                    schema:position      2 ;
+                    schema:text          "Welche Ausschreibungsform haben Sie gewählt und warum? Gab es eine Vorlage oder Muster-Leistungsbeschreibung, die hilfreich war und die Sie teilen können?" ;
+                    schema:acceptedAnswer "Die generelle Umsetzung musste nicht ausgeschrieben werden, da sie im Rahmen des vom Land geförderten TwinBy Projektes umgesetzt wurde. Das Land Bayern hat ein Konsortium an Dienstleistern bereitgestellt, welche den Use Case umgesetzt haben."
+                ],
+                [
+                    a schema:Question ;
+                    schema:position      3 ;
+                    schema:text          "Welche Tipps haben Sie für eine erfolgreiche Ausschreibung?" ;
+                    schema:acceptedAnswer "Frühzeitig klare und realistische Anforderungen definieren, alle relevanten Fachbereiche einbinden und genügend Zeit für die Ausarbeitung einplanen. Außerdem lohnt es sich, bestehende Vorlagen oder Mustertexte zu nutzen und die Kriterien für die Angebotsbewertung transparent zu formulieren."
+                ],
+                [
+                    a schema:Question ;
+                    schema:position      4 ;
+                    schema:text          "Wie haben Sie die Ressourcenplanung für die Entwicklung und den Betrieb Ihres Digitalen Zwillings gestaltet und gesichert?" ;
+                    schema:acceptedAnswer "Für die Sicherung wurden interne Kapazitäten fest eingeplant und ergänzend externe Partner für spezialisierte Aufgaben eingebunden."
+                ]
+        ],
+
+        # Phase 3: Umsetzen
+        [
+            a schema:QAPage ;
+            dct:identifier  "haar-phase-umsetzen" ;
+            dct:type        "Umsetzen" ;
+            schema:position 3 ;
+            schema:question
+                [
+                    a schema:Question ;
+                    schema:position      1 ;
+                    schema:text          "Wie haben Sie die Zusammenarbeit mit den Dienstleistern organisiert und wie wurden relevante Stakeholder in Entscheidungsprozesse eingebunden (z.B. Meetingstruktur oder Frameworks)?" ;
+                    schema:acceptedAnswer "Die Zusammenarbeit mit den Dienstleistern erfolgte über regelmäßige wöchentliche Check-ins und einen zentralen Product Owner auf städtischer Seite, der durch einen technischen Koordinator und einen Projektmanager auf Kundenseite unterstützt wurde."
+                ],
+                [
+                    a schema:Question ;
+                    schema:position      2 ;
+                    schema:text          "Gab es Verzögerungen und wenn ja, was waren die Gründe?" ;
+                    schema:acceptedAnswer "Ja, es kam zu Verzögerungen, die vor allem auf Abstimmungsprozesse zwischen den Beteiligten sowie auf zusätzliche Anpassungen der Anforderungen während der Projektumsetzung zurückzuführen waren. Vor allem die Beschaffung der Sensoren erzeugte anfangs nicht absehbare Herausforderungen aufgrund der Förderung."
+                ],
+                [
+                    a schema:Question ;
+                    schema:position      3 ;
+                    schema:text          "Welche Schnittstellen wurden genutzt und traten technische Herausforderungen auf?" ;
+                    schema:acceptedAnswer "Es wurden vor allem GIS-Schnittstellen zur Einbindung von Geodaten genutzt. Sowie eine REST API des Sensor-Backends, um die Live-Verkehrsdaten in den Zwilling und das Dashboard zu senden."
+                ]
+        ],
+
+        # Phase 4: Weiterdenken
+        [
+            a schema:QAPage ;
+            dct:identifier  "haar-phase-weiterdenken" ;
+            dct:type        "Weiterdenken" ;
+            schema:position 4 ;
+            schema:question
+                [
+                    a schema:Question ;
+                    schema:position      1 ;
+                    schema:text          "Was sind Ihre wichtigsten Learnings aus dem Projekt? Was würden Sie beim nächsten Use Case anders machen?" ;
+                    schema:acceptedAnswer "Wichtige Learnings waren, Anforderungen noch klarer und detaillierter zu Beginn zu definieren, Schnittstellen frühzeitig zu testen und alle relevanten Akteure kontinuierlich einzubinden. Beim nächsten Use Case würden wir mehr Zeit für die initiale Konzeptphase einplanen und technische Abhängigkeiten noch stärker vorab klären."
+                ],
+                [
+                    a schema:Question ;
+                    schema:position      2 ;
+                    schema:text          "Wird die Wirksamkeit Ihres Projekts überwacht und wenn ja, wie? Ist der erwartete Nutzen eingetreten (z.B. ökologisch, sozial oder monetär)?" ;
+                    schema:acceptedAnswer "Derzeit befindet sich der Digitale Zwilling in einer Projektzwischenphase, sodass die Wirksamkeit noch nicht aktiv überwacht wird. Eine systematische Erfolgskontrolle ist für eine spätere Ausbauphase vorgesehen."
+                ],
+                [
+                    a schema:Question ;
+                    schema:position      3 ;
+                    schema:text          "Gibt es Pläne für eine Skalierung oder Weiterentwicklung? Wenn ja, wie sichern Sie die Finanzierung dafür?" ;
+                    schema:acceptedAnswer "Die Finanzierung soll in Zukunft durch kommunale Haushaltsmittel gesichert werden."
+                ],
+                [
+                    a schema:Question ;
+                    schema:position      4 ;
+                    schema:text          "Welche externen Unterstützungsangebote haben Ihnen geholfen oder auch gefehlt (z.B. Förderprogramme, Netzwerke, Austausch mit anderen Kommunen)?" ;
+                    schema:acceptedAnswer "Hilfreich waren vor allem das Förderprogramm des Landes Bayern sowie der fachliche Austausch mit externen Partnern. Es hätte jedoch zusätzlichen Mehrwert gebracht, frühzeitig ein stärkeres Netzwerk mit anderen Kommunen aufzubauen, die ähnliche Projekte umsetzen."
+                ]
+        ] .
